@@ -11,9 +11,9 @@ export default function App(){
     };
 
     return(
-        <View >
-            <View >
-                {/* <Button
+        <View sytle={styles.container} >
+            <View sytle={styles.content}>
+                <Button
                 title="Ver mensaje"
                 onPress={()=> setModalVisible(true)}
                 />
@@ -21,7 +21,7 @@ export default function App(){
                     visible={modalVisible}
                     onClose={()=> setModalVisible(false)}
                     contenido={objetoContenido}
-                /> */}
+                />
                     
             </View>
         </View>
