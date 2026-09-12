@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SplashScreen",
-    "slug": "SplashScreen",
+    "name": "VidaQueso",
+    "slug": "VidaQueso",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,16 +15,10 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      },
-      "package": "com.ferleon.SplashScreen"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "f9e18454-6148-49e9-bd34-a92ce32afa46"
-      }
     }
   }
 }
