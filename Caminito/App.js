@@ -14,6 +14,7 @@ import Progreso from './src/screens/Progreso';
 import Cofre from './src/screens/Cofre';
 import Acerca from './src/screens/Acerca';
 import { C } from './src/theme';
+import Instrucciones from './src/screens/Instrucciones';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,7 +47,7 @@ function Aventura() {
       <Stack.Screen
         name="Cofre"
         component={Cofre}
-        options={{ presentation: 'transparentModal', animation: 'fade', gestureEnabled: false }}
+        options={{ presentation: 'transparentModal', animation: 'fade'}}
       />
     </Stack.Navigator>
   );
@@ -64,6 +65,7 @@ export default function App() {
           screenOptions={{ headerStyle: { backgroundColor: C.cafe }, headerTintColor: '#fff' }}
         >
           <Drawer.Screen name="Aventura" component={Aventura} options={{ title: 'Caminito 🐜' }} />
+          <Drawer.Screen name="Instrucciones" component={Instrucciones} options={{ title: 'Instrucciones' }} />
           <Drawer.Screen name="Acerca" component={Acerca} options={{ title: 'Acerca de' }} />
         </Drawer.Navigator>
       </NavigationContainer>

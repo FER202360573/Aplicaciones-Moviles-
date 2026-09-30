@@ -12,7 +12,7 @@ export default function Acerca() {
       <Text style={{ fontSize: 70 }}>🐜</Text>
       <Text style={s.t}>Caminito v1.0</Text>
       <Text style={s.p}>Proyecto de Desarrollo Móvil · Expo + React Native</Text>
-      <TouchableOpacity style={s.b} onPress={() => abrir('https://es.wikipedia.org/wiki/Formicidae')}>
+      <TouchableOpacity style={s.b} onPress={() => abrir('https://hormigas.wiki/tipos-de-hormigas/')}>
         <Text style={s.bt}>🌐 Sobre las hormigas</Text>
       </TouchableOpacity>
       <TouchableOpacity style={s.b} onPress={() => abrir('https://github.com/TU_USUARIO/Caminito')}>

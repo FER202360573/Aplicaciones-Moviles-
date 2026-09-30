@@ -1,16 +1,17 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PREMIOS } from './theme';
 
 const KEY = 'caminito:v1';
-const INIT = { pasos: 0, maxPasos: 0, puntos: 0, premios: [], resueltos: [] };
+const INIT = { pasos: 0, maxPasos: 0, puntos: 0, premios: [], resueltos: [], icono: 'hormiga' };
 const Ctx = createContext(null);
 export const useGame = () => useContext(Ctx);
 
 export function GameProvider({ children }) {
   const [g, setG] = useState(INIT);
   const [listo, setListo] = useState(false);
+  const [pospuesto, setPospuesto] = useState(null); // cofre cerrado sin tirar (no se guarda)
 
-  // Cargar (validación: si falla o no hay datos, valores por defecto)
   useEffect(() => {
     (async () => {
       try {
@@ -21,7 +22,6 @@ export function GameProvider({ children }) {
     })();
   }, []);
 
-  // Guardar
   useEffect(() => {
     if (listo) AsyncStorage.setItem(KEY, JSON.stringify(g)).catch(() => {});
   }, [g, listo]);
@@ -31,26 +31,36 @@ export function GameProvider({ children }) {
     return { ...p, pasos, maxPasos: Math.max(p.maxPasos, pasos), puntos: p.puntos + Math.max(0, n) };
   }), []);
 
-  // resultado = { hito, tipo: 'castigo' | 'premio' | 'bonus', premio }
   const aplicarCofre = useCallback((r) => setG((p) => {
-    const resueltos = [...p.resueltos, r.hito];
-    if (r.tipo === 'castigo') {
-      return { ...p, resueltos, pasos: Math.max(0, p.pasos - 20), puntos: Math.max(0, p.puntos - 20) };
-    }
-    const premios = r.premio && !p.premios.includes(r.premio) ? [...p.premios, r.premio] : p.premios;
-    return { ...p, resueltos, premios, puntos: p.puntos + 50 };
+  if (p.resueltos.includes(r.hito)) return p; // evita aplicarlo dos veces
+  const resueltos = [...p.resueltos, r.hito];
+  if (r.tipo === 'castigo') {
+    return { ...p, resueltos, pasos: Math.max(0, p.pasos - 20), puntos: Math.max(0, p.puntos - 20) };
+  }
+  const premios = r.premio && !p.premios.includes(r.premio) ? [...p.premios, r.premio] : p.premios;
+  return { ...p, resueltos, premios, puntos: p.puntos + 50 };
+  }), []);
+    
+
+  // Cambiar personaje (validación: solo si está desbloqueado o es la hormiga)
+  const setIcono = useCallback((k) => setG((p) => {
+    if (k !== 'hormiga' && !p.premios.includes(k)) return p;
+    return { ...p, icono: k };
   }), []);
 
-  const reiniciar = useCallback(() => setG(INIT), []);
+  const reiniciar = useCallback(() => { setG(INIT); setPospuesto(null); }, []);
 
-  // Primer cofre (100, 200, ...) alcanzado y aún no resuelto
   const siguienteCofre = useMemo(() => {
     for (let m = 100; m <= g.pasos; m += 100) if (!g.resueltos.includes(m)) return m;
     return null;
   }, [g.pasos, g.resueltos]);
 
+  const desbloquearTodos = useCallback(
+  () => setG((p) => ({ ...p, premios: Object.keys(PREMIOS) })), []
+  );
+
   return (
-    <Ctx.Provider value={{ g, listo, addPasos, aplicarCofre, reiniciar, siguienteCofre }}>
+    <Ctx.Provider value={{ g, listo, addPasos, aplicarCofre, reiniciar, siguienteCofre, setIcono, pospuesto, setPospuesto, desbloquearTodos }}>
       {children}
     </Ctx.Provider>
   );
