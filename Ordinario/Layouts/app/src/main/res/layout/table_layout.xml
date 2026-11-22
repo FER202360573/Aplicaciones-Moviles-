@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:stretchColumns="1">
+
+    <TextView
+        android:text="Ejemplo de TableLayout"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp" />
+
+    <TableRow>
+        <TextView android:text="Nombre:" android:padding="8dp" />
+        <EditText android:hint="Tu nombre" />
+    </TableRow>
+
+    <TableRow>
+        <TextView android:text="Correo:" android:padding="8dp" />
+        <EditText android:hint="Tu correo" />
+    </TableRow>
+
+    <TableRow>
+        <TextView android:text="Teléfono:" android:padding="8dp" />
+        <EditText android:hint="Tu teléfono" android:inputType="phone" />
+    </TableRow>
+
+    <TableRow>
+        <Button android:text="Cancelar" />
+        <Button android:text="Guardar" />
+    </TableRow>
+
+</TableLayout>
